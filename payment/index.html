@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unlock Your Gift – Gift On Screen</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", system-ui, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #160030, #06000c);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      max-width: 520px;
+      width: 100%;
+      padding: 44px 34px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(22px);
+      box-shadow: 0 35px 80px rgba(0, 0, 0, 0.65);
+      animation: fadeUp 0.8s ease forwards;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      background: linear-gradient(90deg, #ff8bd8, #7f5cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p {
+      font-size: 0.95rem;
+      opacity: 0.8;
+      margin-bottom: 26px;
+      line-height: 1.6;
+    }
+
+    .steps {
+      text-align: left;
+      margin-bottom: 32px;
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
+
+    .steps div {
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      border-radius: 18px;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      background: linear-gradient(90deg, #25d366, #00c853);
+      color: #000;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-bottom: 14px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(37, 211, 102, 0.45);
+    }
+
+    .secondary {
+      background: linear-gradient(90deg, #7f5cff, #00eaff);
+    }
+
+    .note {
+      font-size: 0.8rem;
+      opacity: 0.6;
+      margin-top: 10px;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(35px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>Unlock Your Gift</h1>
+
+    <p>
+      Your gift is ready. Complete the payment to receive your
+      <strong>6-digit unlock code</strong> and permanent access.
+    </p>
+
+    <div class="steps">
+      <div>1️⃣ Click WhatsApp below</div>
+      <div>2️⃣ Complete the payment</div>
+      <div>3️⃣ Receive your 6-digit unlock code</div>
+      <div>4️⃣ Enter the code to unlock your gift</div>
+    </div>
+
+    <button class="btn" onclick="openWhatsApp()">
+      Continue on WhatsApp
+    </button>
+
+    <button class="btn secondary" onclick="goToUnlock()">
+      I Have an Unlock Code
+    </button>
+
+    <div class="note">
+      Secure • Manual verification • One-time unlock
+    </div>
+  </div>
+
+  <script>
+    function openWhatsApp() {
+      const mobile = sessionStorage.getItem("mobileNumber") || "";
+      const message =
+        "Hello, I want to unlock my Gift On Screen premium page. My mobile number is " +
+        mobile;
+
+      const url =
+        "https://wa.me/XXXXXXXXXX?text=" +
+        encodeURIComponent(message);
+
+      window.open(url, "_blank");
+    }
+
+    function goToUnlock() {
+      window.location.href = "/unlock/";
+    }
+  </script>
+</body>
+</html>
