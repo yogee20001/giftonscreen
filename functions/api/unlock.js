@@ -1,19 +1,43 @@
-export async function onRequestPost({ request, env }) {
-  const body = await request.json();
-  const raw = await env.GREETINGS_KV.get(body.id);
+export async function onRequest(context) {
+  try {
+    const { request, env } = context;
 
-  if (!raw) return new Response("Not found", { status: 404 });
+    if (request.method !== "POST") {
+      return new Response("Method Not Allowed", { status: 405 });
+    }
 
-  const data = JSON.parse(raw);
+    const body = await request.json();
 
-  if (data.unlocked) return new Response("Already unlocked");
-  if (body.code !== data.unlockCode)
-    return new Response("Invalid code", { status: 403 });
+    if (!env.GREETINGS_KV) {
+      throw new Error("KV binding GREETINGS_KV not found");
+    }
 
-  data.unlocked = true;
-  delete data.unlockCode;
+    const raw = await env.GREETINGS_KV.get(body.id);
+    if (!raw) {
+      return new Response("Not found", { status: 404 });
+    }
 
-  await env.GREETINGS_KV.put(body.id, JSON.stringify(data));
+    const data = JSON.parse(raw);
 
-  return new Response("Unlocked");
+    if (data.unlocked) {
+      return new Response("Already unlocked");
+    }
+
+    if (body.code !== data.unlockCode) {
+      return new Response("Invalid code", { status: 403 });
+    }
+
+    data.unlocked = true;
+    delete data.unlockCode;
+
+    await env.GREETINGS_KV.put(body.id, JSON.stringify(data));
+
+    return new Response("Unlocked");
+  } catch (err) {
+    return new Response(
+      JSON.stringify({ error: err.message }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
+  }
 }
+
