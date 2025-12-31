@@ -1,20 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Create Greeting</title>
-</head>
-<body>
+<button type="button" onclick="save()">Preview</button>
 
-<h2>Enter Details</h2>
+<script>
+async function save() {
+  const res = await fetch("/api/save", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      mobile: document.querySelector('[name="mobile"]').value,
+      to: document.querySelector('[name="to"]').value,
+      from: document.querySelector('[name="from"]').value,
+      template: new URLSearchParams(location.search).get("tpl"),
+      media: document.querySelector('[name="media"]').value
+    })
+  });
 
-<form action="preview.html">
-  <input name="mobile" placeholder="Mobile Number" required>
-  <input name="to" placeholder="To Name" required>
-  <input name="from" placeholder="From Name" required>
-  <input name="media" placeholder="Image / Video URL (optional)">
-  <input type="hidden" name="tpl" value="1">
-  <button type="submit">Preview</button>
-</form>
+  const data = await res.json();
 
-</body>
-</html>
+  // Do NOT show unlock code to user
+  // Admin will share it manually after payment
+
+  window.location.href = "preview.html?id=" + data.id;
+}
+</script>
+
