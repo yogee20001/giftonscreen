@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Preview</title>
+</head>
+<body>
+
+<h2>Preview</h2>
+<p id="status">Checking preview status...</p>
+
+<div id="content" style="display:none;">
+  <p>⏳ Preview valid for 1 hour</p>
+  <a id="unlockLink">Unlock & Save Forever</a>
+</div>
+
+<script>
+const id = new URLSearchParams(location.search).get("id");
+
+fetch("/api/get/" + id)
+  .then(r => r.json())
+  .then(d => {
+    const now = Date.now();
+
+    if (now > d.previewExpiresAt && !d.unlocked) {
+      document.getElementById("status").innerText =
+        "⛔ Preview expired. Please unlock to continue.";
+      return;
+    }
+
+    document.getElementById("status").innerText = "Preview Active";
+    document.getElementById("content").style.display = "block";
+    document.getElementById("unlockLink").href = "unlock.html?id=" + id;
+  })
+  .catch(() => {
+    document.getElementById("status").innerText = "Invalid preview link.";
+  });
+</script>
+
+</body>
+</html>

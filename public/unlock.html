@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unlock</title>
+</head>
+<body>
+
+<h2>Enter Unlock Code</h2>
+
+<input id="code" placeholder="6-digit code">
+<button onclick="unlock()">Unlock</button>
+
+<script>
+function unlock(){
+  if(document.getElementById('code').value.length === 6){
+    window.location.href = "view.html?id=PERMANENT123";
+  } else {
+    alert("Invalid Code");
+  }
+}
+</script>
+
+</body>
+</html>
