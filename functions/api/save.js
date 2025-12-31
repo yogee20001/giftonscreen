@@ -8,8 +8,16 @@ export async function onRequest(context) {
 
     const body = await request.json();
 
-    const id = crypto.randomUUID();
+    // SAFE ID (no crypto)
+    const id =
+      Date.now().toString(36) +
+      Math.random().toString(36).substring(2, 10);
+
     const unlockCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+    if (!env.GREETINGS_KV) {
+      throw new Error("KV binding GREETINGS_KV missing");
+    }
 
     const data = {
       mobile: body.mobile,
@@ -22,10 +30,6 @@ export async function onRequest(context) {
       createdAt: Date.now(),
       previewExpiresAt: Date.now() + 60 * 60 * 1000
     };
-
-    if (!env.GREETINGS_KV) {
-      throw new Error("KV binding GREETINGS_KV not found");
-    }
 
     await env.GREETINGS_KV.put(id, JSON.stringify(data));
 
@@ -40,4 +44,5 @@ export async function onRequest(context) {
     );
   }
 }
+
 
