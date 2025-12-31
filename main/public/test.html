@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>System Test Console</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f6fa;
+      padding: 20px;
+    }
+    .box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      font-size: 14px;
+    }
+    button {
+      background: #5b2ccf;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .log {
+      background: #f0f0f0;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      margin-top: 10px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>🔧 Test Console</h2>
+
+  <input id="mobile" placeholder="Mobile number" value="9999999999">
+  <input id="to" placeholder="To name" value="Test User">
+  <input id="from" placeholder="From name" value="Admin">
+  <input id="media" placeholder="Media URL (optional)">
+
+  <button onclick="create()">1️⃣ Create Greeting</button>
+
+  <input id="gid" placeholder="Greeting ID">
+  <input id="code" placeholder="Unlock Code">
+
+  <button onclick="unlock()">2️⃣ Unlock Greeting</button>
+
+  <button onclick="openPreview()">3️⃣ Open Preview</button>
+  <button onclick="openFinal()">4️⃣ Open Final Page</button>
+  <button onclick="openQR()">5️⃣ Open QR Page</button>
+
+  <div class="log" id="log">Logs will appear here…</div>
+</div>
+
+<script>
+let lastId = "";
+let lastCode = "";
+
+function log(msg) {
+  document.getElementById("log").textContent += "\n" + msg;
+}
+
+async function create() {
+  log("Creating greeting...");
+  const res = await fetch("/api/save", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      mobile: mobile.value,
+      to: to.value,
+      from: from.value,
+      template: "1",
+      media: media.value
+    })
+  });
+
+  const data = await res.json();
+  lastId = data.id;
+  lastCode = data.unlockCode;
+
+  document.getElementById("gid").value = lastId;
+  document.getElementById("code").value = lastCode;
+
+  log("Greeting ID: " + lastId);
+  log("Unlock Code: " + lastCode);
+}
+
+async function unlock() {
+  log("Unlocking greeting...");
+  const res = await fetch("/api/unlock", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      id: gid.value,
+      code: code.value
+    })
+  });
+
+  log(res.ok ? "Unlocked successfully" : "Unlock failed");
+}
+
+function openPreview() {
+  window.open("preview.html?id=" + gid.value, "_blank");
+}
+
+function openFinal() {
+  window.open("view.html?id=" + gid.value, "_blank");
+}
+
+function openQR() {
+  window.open("qr.html?id=" + gid.value, "_blank");
+}
+</script>
+
+</body>
+</html>

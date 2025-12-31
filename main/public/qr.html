@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Download QR Code</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- QR Library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f6fa;
+      text-align: center;
+      padding: 30px;
+    }
+    .box {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 16px;
+      max-width: 350px;
+      margin: auto;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    #qrcode {
+      margin: 20px auto;
+      padding: 12px;
+      background: #fdf6ff;
+      border-radius: 12px;
+      display: inline-block;
+    }
+    button {
+      padding: 12px 18px;
+      background: #6c2bd9;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Your QR Code</h2>
+  <p>Scan to open greeting</p>
+
+  <div id="qrcode"></div>
+
+  <br>
+  <button onclick="downloadQR()">Download QR</button>
+</div>
+
+<script>
+  const id = new URLSearchParams(location.search).get("id");
+  const link = location.origin + "/view.html?id=" + id;
+
+  // Generate QR
+  new QRCode(document.getElementById("qrcode"), {
+    text: link,
+    width: 220,
+    height: 220,
+    colorDark: "#5b2ccf",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+  function downloadQR() {
+    const img = document.querySelector("#qrcode img");
+    const a = document.createElement("a");
+    a.href = img.src;
+    a.download = "greeting-qr.png";
+    a.click();
+  }
+</script>
+
+</body>
+</html>
