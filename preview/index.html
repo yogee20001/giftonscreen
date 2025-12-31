@@ -130,6 +130,14 @@
       </div>
     </div>
   </div>
+<script>
+  if (
+    !sessionStorage.getItem("userName") ||
+    !sessionStorage.getItem("userMessage")
+  ) {
+    window.location.href = "/upload/";
+  }
+</script>
 
   <script>
     const name = sessionStorage.getItem("userName") || "Your Name";
@@ -176,3 +184,4 @@
   </script>
 </body>
 </html>
+
