@@ -34,3 +34,37 @@ body {
 .section-card h2 {
   margin: 12px 0;
 }
+
+.templates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+.template-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  overflow: hidden;
+}
+
+.template-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.template-card h3 {
+  margin: 10px 0;
+}
+
+.template-card button {
+  margin-bottom: 12px;
+  padding: 8px 16px;
+  border: none;
+  background: #000;
+  color: #fff;
+  border-radius: 6px;
+}
