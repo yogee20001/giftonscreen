@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+}
+
+.header {
+  text-align: center;
+  padding: 20px;
+}
+
+.sections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+.section-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.section-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.section-card h2 {
+  margin: 12px 0;
+}
