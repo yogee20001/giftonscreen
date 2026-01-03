@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Your Gift</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<header class="header">
+  <h1>Create Your Gift</h1>
+</header>
+
+<main class="form-container">
+  <form id="giftForm">
+    <input type="hidden" id="section" />
+    <input type="hidden" id="template" />
+
+    <label>Mobile Number *</label>
+    <input type="tel" id="mobile" required />
+
+    <label>Name</label>
+    <input type="text" id="name" />
+
+    <label>Message</label>
+    <textarea id="message"></textarea>
+
+    <label>Photos</label>
+    <input type="file" id="photos" multiple />
+
+    <label>Voice</label>
+    <input type="file" id="voice" accept="audio/*" />
+
+    <label>Video</label>
+    <input type="file" id="video" accept="video/*" />
+
+    <button type="submit">Preview</button>
+  </form>
+</main>
+
+<script src="/js/form.js"></script>
+</body>
+</html>
