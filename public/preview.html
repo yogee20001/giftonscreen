@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Preview</title>
+</head>
+<body>
+
+<h1>Preview Mode</h1>
+<p>Your preview is valid for 1 hour.</p>
+<p>Contact us on WhatsApp to unlock.</p>
+
+<div id="previewData"></div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  fetch(
+    `https://giftonscreen-worker.giftonscreen.workers.dev/get-preview?mobile=${params.get("mobile")}`
+  )
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("previewData").innerHTML =
+        `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    });
+</script>
+
+</body>
+</html>
