@@ -1,39 +1,59 @@
+// ================================
+// FORM.JS – TASK 3 (FINAL)
+// ================================
+
+// Confirm JS loaded
 console.log("form.js loaded");
 
+// Read URL params
 const params = new URLSearchParams(window.location.search);
-document.getElementById("section").value = params.get("section");
-document.getElementById("template").value = params.get("template");
+const section = params.get("section");
+const template = params.get("template");
 
-document.getElementById("giftForm").addEventListener("submit", async (e) => {
+// Set hidden fields
+document.getElementById("section").value = section || "";
+document.getElementById("template").value = template || "";
+
+// Get form
+const form = document.getElementById("giftForm");
+
+if (!form) {
+  console.error("giftForm not found");
+}
+
+// Submit handler
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  console.log("Form submit triggered");
 
+  const mobile = document.getElementById("mobile").value.trim();
+
+  if (!mobile) {
+    alert("Mobile number is required");
+    return;
+  }
+
+  // Build form data
   const formData = new FormData();
-  formData.append("section", document.getElementById("section").value);
-  formData.append("template", document.getElementById("template").value);
-  formData.append("mobile", document.getElementById("mobile").value);
+  formData.append("section", section);
+  formData.append("template", template);
+  formData.append("mobile", mobile);
   formData.append("name", document.getElementById("name").value);
   formData.append("message", document.getElementById("message").value);
 
-  [...document.getElementById("photos").files].forEach(f =>
-    formData.append("photos", f)
-  );
-
-  if (document.getElementById("voice").files[0])
-    formData.append("voice", document.getElementById("voice").files[0]);
-
-  if (document.getElementById("video").files[0])
-    formData.append("video", document.getElementById("video").files[0]);
-
-  const res = await fetch(
-    "https://giftonscreen-worker.giftonscreen.workers.dev/save-draft",
-    { method: "POST", body: formData }
-  );
-
-  const data = await res.json();
-
-  if (data.success) {
-    window.location.href = `/preview.html?mobile=${data.mobile}`;
-  } else {
-    alert("Error saving draft");
+  const photosInput = document.getElementById("photos");
+  for (let i = 0; i < photosInput.files.length; i++) {
+    formData.append("photos", photosInput.files[i]);
   }
-});
+
+  const voiceInput = document.getElementById("voice");
+  if (voiceInput.files[0]) {
+    formData.append("voice", voiceInput.files[0]);
+  }
+
+  const videoInput = document.getElementById("video");
+  if (videoInput.files[0]) {
+    formData.append("video", videoInput.files[0]);
+  }
+
+  try {
